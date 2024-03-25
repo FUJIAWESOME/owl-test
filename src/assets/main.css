@@ -50,18 +50,22 @@
   margin-top: 16px;
   font-weight: 700;
   font-size: 48px;
+  line-height: 56px;
   color: #423f3f;
 
   @media (max-width: 656px) {
     font-size: 40px;
+    line-height: 46px;
   }
 
   @media (max-width: 550px) {
     font-size: 35px;
+    line-height: 36px;
   }
 
   @media (max-width: 500px) {
-    font-size: 30px;
+    font-size: 24px;
+    line-height: 28px;
   }
 }
 
