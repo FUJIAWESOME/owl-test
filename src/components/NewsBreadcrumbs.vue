@@ -24,6 +24,11 @@
   display: none;
 }
 
+.breadcrumbs {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .breadcrumbs li:not(:last-child):not(.breadcrumbs-dot) {
   cursor: pointer;
 }

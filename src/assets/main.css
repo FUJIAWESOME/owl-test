@@ -35,6 +35,11 @@
   display: none;
 }
 
+.popup {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .popup__content {
   max-width: 850px;
   margin: 0 auto;
