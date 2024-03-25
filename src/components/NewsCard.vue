@@ -6,8 +6,8 @@ import NewsTags from './NewsTags.vue'
   <div class="news-card">
     <div class="news-card__img-box">
       <img class="news-card__img" src="/content.png" alt="content" />
+      <p class="news-card__date">06.10.2023</p>
     </div>
-    <p class="news-card__date">06.10.2023</p>
     <div class="news-card__info">
       <p class="news-card__title news-h2">
         Правительство продлило «Льготную ипотеку» и расширило «Семейную».
@@ -20,7 +20,7 @@ import NewsTags from './NewsTags.vue'
 <style scoped>
 .news-card {
   display: flex;
-  gap: 24px;
+  /* gap: 24px; */
   position: relative;
   background-color: rgb(218, 218, 218, 0.4);
 
@@ -28,6 +28,10 @@ import NewsTags from './NewsTags.vue'
   padding: 4px;
   transition: 0.3s;
   cursor: pointer;
+
+  @media (max-width: 865px) {
+    flex-direction: column;
+  }
 }
 
 .news-card__img-box {
@@ -37,13 +41,31 @@ import NewsTags from './NewsTags.vue'
 
 .news-card__img {
   transition: transform 0.3s ease;
+
+  @media (max-width: 865px) {
+    /* flex-direction: column; */
+    /* max-height: 400px; */
+  }
 }
 
 .news-card__title {
   font-size: 24px;
   line-height: 32px;
-  margin-top: 0;
+  margin: 0;
   transition: 0.3s;
+
+  @media (max-width: 660px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 564px) {
+    font-size: 17px;
+    line-height: 22px;
+  }
+
+  @media (max-width: 492px) {
+    font-size: 15px;
+  }
 }
 
 .news-card__date {
@@ -64,8 +86,14 @@ import NewsTags from './NewsTags.vue'
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  /* margin-top: 12px; */
+  /* margin-bottom: 12px; */
+  padding: 12px 0;
+  padding-left: 24px;
+
+  @media (max-width: 865px) {
+    padding-left: 12px;
+  }
 }
 
 .news-card:hover .news-card__title {

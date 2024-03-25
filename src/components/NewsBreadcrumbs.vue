@@ -16,11 +16,15 @@
   text-transform: uppercase;
   font-weight: 500;
   color: #423f3f;
+  white-space: nowrap;
   overflow-x: auto;
 }
 
+.breadcrumbs::-webkit-scrollbar {
+  display: none;
+}
+
 .breadcrumbs li:not(:last-child):not(.breadcrumbs-dot) {
-  white-space: nowrap;
   cursor: pointer;
 }
 
