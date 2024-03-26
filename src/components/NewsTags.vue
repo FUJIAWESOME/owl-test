@@ -1,7 +1,15 @@
+<script setup>
+defineProps({
+  tags: Array
+})
+</script>
+
 <template>
   <div class="tags">
-    <div class="tag blue">в СМИ</div>
-    <div class="tag red">акции</div>
+    <div v-for="(tag, index) in tags" :key="index">
+      <div v-if="tag.values[0].color === 'blue'" class="tag blue">{{ tag.values[0].name }}</div>
+      <div v-else-if="tag.values[0].color === 'red'" class="tag red">{{ tag.values[0].name }}</div>
+    </div>
   </div>
 </template>
 

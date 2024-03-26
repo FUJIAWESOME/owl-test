@@ -1,10 +1,16 @@
+<script setup>
+defineProps({
+  currentNewsTitle: String
+})
+</script>
+
 <template>
   <ul class="breadcrumbs">
     <li>главная</li>
     <li class="breadcrumbs-dot">&bull;</li>
     <li>новости</li>
     <li class="breadcrumbs-dot">&bull;</li>
-    <li class="highlighted">Средняя ставка по ипотеке в России превысила 8%</li>
+    <li class="highlighted">{{ currentNewsTitle }}</li>
   </ul>
 </template>
 

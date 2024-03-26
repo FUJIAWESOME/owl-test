@@ -1,26 +1,36 @@
 <script setup>
 import NewsTags from './NewsTags.vue'
+import { RouterLink } from 'vue-router'
+
+defineProps({
+  title: String,
+  date: String,
+  imageUrl: String,
+  tags: Array,
+  code: String
+})
 </script>
 
 <template>
-  <div class="news-card">
-    <div class="news-card__img-box">
-      <img class="news-card__img" src="/content.png" alt="content" />
-      <p class="news-card__date">06.10.2023</p>
+  <RouterLink :to="'/news/' + code"
+    ><div class="news-card">
+      <div class="news-card__img-box">
+        <img class="news-card__img" :src="imageUrl" alt="content" />
+        <p class="news-card__date">{{ date }}</p>
+      </div>
+      <div class="news-card__info">
+        <p class="news-card__title news-h2">
+          {{ title }}
+        </p>
+        <NewsTags :tags="tags" />
+      </div>
     </div>
-    <div class="news-card__info">
-      <p class="news-card__title news-h2">
-        Правительство продлило «Льготную ипотеку» и расширило «Семейную».
-      </p>
-      <NewsTags />
-    </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped>
 .news-card {
   display: flex;
-  /* gap: 24px; */
   position: relative;
   background-color: rgb(218, 218, 218, 0.4);
 
@@ -35,17 +45,17 @@ import NewsTags from './NewsTags.vue'
 }
 
 .news-card__img-box {
+  max-width: 320px;
   border-radius: 20px;
   overflow: hidden;
+
+  @media (max-width: 865px) {
+    max-width: 100%;
+  }
 }
 
 .news-card__img {
   transition: transform 0.3s ease;
-
-  @media (max-width: 865px) {
-    /* flex-direction: column; */
-    /* max-height: 400px; */
-  }
 }
 
 .news-card__title {
@@ -86,8 +96,6 @@ import NewsTags from './NewsTags.vue'
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* margin-top: 12px; */
-  /* margin-bottom: 12px; */
   padding: 12px 0;
   padding-left: 24px;
 

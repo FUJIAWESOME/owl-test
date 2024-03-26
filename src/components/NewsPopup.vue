@@ -1,43 +1,80 @@
 <script setup>
+import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
 import NewsCard from './NewsCard.vue'
 import NewsBreadcrumbs from './NewsBreadcrumbs.vue'
 import NewsTags from './NewsTags.vue'
+import axios from 'axios'
+
+const router = useRoute()
+
+defineProps({
+  slug: String
+})
+
+const responseData = ref({})
+const isLoading = ref(true)
+
+onMounted(async () => {
+  try {
+    const { data } = await axios.get(
+      `https://bsk-admin-test.testers-site.ru/api/news/${router.params.id}`
+    )
+    responseData.value = data.data.result
+    isLoading.value = false
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+watch(router, async () => {
+  isLoading.value = true
+  try {
+    const { data } = await axios.get(
+      `https://bsk-admin-test.testers-site.ru/api/news/${router.params.id}`
+    )
+    responseData.value = data.data.result
+    isLoading.value = false
+  } catch (error) {
+    console.log(error)
+  }
+})
 </script>
 
 <template>
   <div class="overlay">
     <div class="popup">
       <div class="popup__content">
-        <NewsBreadcrumbs />
-        <NewsTags />
-        <h1 class="news-title">Средняя ставка по ипотеке в России превысила 8%</h1>
+        <div v-if="isLoading" class="loader"></div>
 
-        <p class="news-date">06.10.2023</p>
+        <div v-else>
+          <NewsBreadcrumbs :currentNewsTitle="responseData.title" />
+          <NewsTags :tags="responseData.tags" v-if="responseData.tags" />
+          <h1 class="news-title">{{ responseData.title }}</h1>
+          <p class="news-date">{{ responseData.date }}</p>
 
-        <p class="news-text">
-          Аналитики одного из ведущих игроков на российском рынке кредитования объясняют это
-          завершением околонулевых программ и изменением условий по ряду
-          <a class="link" href="#">программ с господдержкой</a>. При этом специалисты ВТБ
-          прогнозируют в дальнейшем замедление роста средней ставки.
-        </p>
+          <div v-for="(item, index) in responseData.content" :key="index">
+            <p v-if="item.type === 'text'" class="news-text">{{ item.content }}</p>
+            <img
+              v-else-if="item.type === 'mediaBlock'"
+              class="news-img"
+              :src="item.element.src"
+              alt="image-content"
+            />
+          </div>
 
-        <img class="news-img" src="/content.png" alt="content" />
+          <h2 class="news-h2">Следующая статья</h2>
 
-        <p class="news-text">
-          Если во втором полугодии прошлого года средняя ставка по ипотеке выросла до 7,38%, к концу
-          года упала до 6,65%, то с начала года она выросла: на 1,2 п.п. — в январе, на 0,19 п.п. —
-          в феврале и, по прогнозам ВТБ, на 0,26 п.п. — в марте. <br /><br />К концу первого
-          квартала средняя ставка по ипотеке достигла 8,3%. <br /><br />Самая низкая ставка сейчас
-          действует на рынке новостроек, благодаря программам господдержки. По оценке специалистов
-          ВТБ, ее мартовское значение составило 5,5%—5,7%. <br /><br />Растущая популярность
-          «Семейной ипотеки» в результате ее распространения на все семьи с двумя
-          несовершеннолетними детьми и адаптация участников рынка к новым условиям «ипотеки от
-          застройщика» помогут сбалансировать рынок первичной недвижимости.
-        </p>
-
-        <h2 class="news-h2">Следующая статья</h2>
-
-        <NewsCard />
+          <NewsCard
+            v-if="responseData.next"
+            :title="responseData.next.title"
+            :date="responseData.next.date"
+            :imageUrl="responseData.next.picture"
+            :tags="responseData.next.tags"
+            :code="responseData.next.code"
+          />
+        </div>
       </div>
     </div>
   </div>
