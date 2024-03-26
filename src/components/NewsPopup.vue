@@ -16,19 +16,7 @@ defineProps({
 const responseData = ref({})
 const isLoading = ref(true)
 
-onMounted(async () => {
-  try {
-    const { data } = await axios.get(
-      `https://bsk-admin-test.testers-site.ru/api/news/${router.params.id}`
-    )
-    responseData.value = data.data.result
-    isLoading.value = false
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-watch(router, async () => {
+const fetchNews = async () => {
   isLoading.value = true
   try {
     const { data } = await axios.get(
@@ -39,7 +27,11 @@ watch(router, async () => {
   } catch (error) {
     console.log(error)
   }
-})
+}
+
+onMounted(fetchNews)
+
+watch(router, fetchNews)
 </script>
 
 <template>
@@ -64,16 +56,17 @@ watch(router, async () => {
             />
           </div>
 
-          <h2 class="news-h2">Следующая статья</h2>
+          <div v-if="responseData.next">
+            <h2 class="news-h2">Следующая статья</h2>
 
-          <NewsCard
-            v-if="responseData.next"
-            :title="responseData.next.title"
-            :date="responseData.next.date"
-            :imageUrl="responseData.next.picture"
-            :tags="responseData.next.tags"
-            :code="responseData.next.code"
-          />
+            <NewsCard
+              :title="responseData.next.title"
+              :date="responseData.next.date"
+              :imageUrl="responseData.next.picture"
+              :tags="responseData.next.tags"
+              :code="responseData.next.code"
+            />
+          </div>
         </div>
       </div>
     </div>

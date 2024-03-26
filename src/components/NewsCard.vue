@@ -6,7 +6,10 @@ defineProps({
   title: String,
   date: String,
   imageUrl: String,
-  tags: Array,
+  tags: {
+    required: false,
+    type: Array
+  },
   code: String
 })
 </script>
