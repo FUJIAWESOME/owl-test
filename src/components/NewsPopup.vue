@@ -9,10 +9,6 @@ import axios from 'axios'
 
 const router = useRoute()
 
-defineProps({
-  slug: String
-})
-
 const responseData = ref({})
 const isLoading = ref(true)
 
